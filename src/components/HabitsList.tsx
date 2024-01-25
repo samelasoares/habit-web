@@ -6,12 +6,12 @@ import dayjs from "dayjs";
 
 interface HabitsListProps {
   date: Date;
-  onCompletedChanged: (completed: number) => void
+  onCompletedChanged: (completed: number) => void;
 }
 
 interface habitsInfo {
   possibleHabits: {
-    id: string;
+    id_habit: string;
     title: string;
     created_at: string;
   }[];
@@ -34,40 +34,38 @@ export function HabitsList({ date, onCompletedChanged }: HabitsListProps) {
       });
   }, []);
 
-  async function handleToggleHabit(habitId: string){
-    await api.patch(`/habits/${habitId}/toggle`)
+  async function handleToggleHabit(habitId: string) {
+    await api.patch(`/habits/${habitId}/toggle`);
 
-    const isHabitAlreadyCompleted = habitsInfo!.completedHabits.includes(habitId)
-  
-    let completedHabits: string[]= []
+    const isHabitAlreadyCompleted =
+      habitsInfo!.completedHabits.includes(habitId);
 
-    if(isHabitAlreadyCompleted){
-      completedHabits = habitsInfo!.completedHabits.filter(id => id != habitId)
+    let completedHabits: string[] = [];
 
-    } else(
-      completedHabits = [...habitsInfo!.completedHabits, habitId]
-      )
-      
+    if (isHabitAlreadyCompleted) {
+      completedHabits = habitsInfo!.completedHabits.filter(
+        (id) => id != habitId
+      );
+    } else completedHabits = [...habitsInfo!.completedHabits, habitId];
+
     setHabitsInfo({
       possibleHabits: habitsInfo!.possibleHabits,
       completedHabits,
-    })
+    });
 
-    onCompletedChanged(completedHabits.length)
+    onCompletedChanged(completedHabits.length);
   }
 
-  const isDateInPast = dayjs(date)
-    .endOf('day')
-    .isBefore(new Date())
+  const isDateInPast = dayjs(date).endOf("day").isBefore(new Date());
 
   return (
     <div className="mt-6 flex flex-col gap-3">
       {habitsInfo?.possibleHabits.map((habit) => {
         return (
-          <Checkbox.Root 
-            key={habit.id}
-            onCheckedChange={() => handleToggleHabit(habit.id)}
-            checked={habitsInfo.completedHabits.includes(habit.id)}
+          <Checkbox.Root
+            key={habit.id_habit}
+            onCheckedChange={() => handleToggleHabit(habit.id_habit)}
+            checked={habitsInfo.completedHabits.includes(habit.id_habit)}
             disabled={isDateInPast}
             className="flex items-center gap-3 group focus:outline-none"
           >
