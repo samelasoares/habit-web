@@ -1,40 +1,30 @@
-import { Plus, X } from "phosphor-react";
-import * as Dialog from '@radix-ui/react-dialog';
+import { List, Plus } from "phosphor-react";
 
 import logoImage from "../assets/logo.svg";
+import { Modal } from "./Modal";
 import { NewHabitForm } from "./NewHabitForm";
+import { HabitsListed } from "./HabitsListed";
 
 export function Header() {
-  
   return (
     <div className="w-full max-w-3xl mx-auto flex items-center justify-between">
       <img src={logoImage} alt="Habits" />
-
-      <Dialog.Root>
-        <Dialog.Trigger
-          type="button"
-          className="border border-violet-500 font-semibold rounded-lg px-6 py-4 flex items-center gap-3 hover:border-violet-300 transition-colors focus:outline-none focus:ring-2 focus:ring-violet-700 focus:ring-offset-2 focus:ring-offset-background"
-        >
-          <Plus size={20} className="text-violet-500" />
-          Novo hábito
-        </Dialog.Trigger>
-
-        <Dialog.Portal>
-          <Dialog.Overlay className="w-screen h-screen bg-black/80 fixed inset-0"/>
-
-          <Dialog.Content className="absolute p-10 bg-zinc-900 rounded-2xl w-full max-w-md top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-            <Dialog.Close className="absolute right-6 top-6 text-zinc-400 rounded-lg hover:text-zinc-200">
-              <X size={20} aria-label="Fechar"/>
-            </Dialog.Close>
-          
-            <Dialog.Title className="text-3xl loading-tight font-extrabold">
-              Criar hábito
-            </Dialog.Title>
-
-            <NewHabitForm />
-          </Dialog.Content>
-        </Dialog.Portal>
-      </Dialog.Root>
+      <div className="flex flex-row gap-2">
+        <Modal
+          componentTitle="Criar hábito"
+          componentReender={<NewHabitForm />}
+          buttonIcon={<Plus size={20} className="text-violet-500" />}
+          buttonTitle=" Novo hábito"
+          buttonStyle="border border-violet-500 font-semibold rounded-lg px-6 py-4 flex items-center gap-3 hover:border-violet-300 transition-colors focus:outline-none focus:ring-2 focus:ring-violet-700 focus:ring-offset-2 focus:ring-offset-background"
+        />
+        <Modal
+          componentTitle="Hábitos criados"
+          componentReender={<HabitsListed />}
+          buttonIcon={<List size={20} className="text-violet-500" />}
+          buttonTitle=""
+          buttonStyle="border border-violet-500 font-semibold rounded-lg px-6 py-4 flex items-center gap-3 hover:border-violet-300 transition-colors focus:outline-none focus:ring-2 focus:ring-violet-700 focus:ring-offset-2 focus:ring-offset-background"
+        />
+      </div>
     </div>
   );
 }

@@ -29,6 +29,7 @@ export function HabitsList({ date, onCompletedChanged }: HabitsListProps) {
         },
       })
       .then((response) => {
+        console.log(response.data)
         setHabitsInfo(response.data);
       });
   }, []);
